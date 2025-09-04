@@ -1,7 +1,3 @@
-let name1 = "Ankit"
+let name = "Ankit"
 
 let num = 55;
-
-function isAbove18(){
-    return true
-}

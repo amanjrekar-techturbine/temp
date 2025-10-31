@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Firebase SDKs -->
+    
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Your Form -->
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
+
+    <script type="module">
+        // ✅ 2. Initialize Firebase (replace with your config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCGn9yO_NyF5US-cHBStmiXqGG2ySlmH8",
+            authDomain: "fir-node-adf15.firebaseapp.com",
+            projectId: "fir-node-adf15",
+            appId: "1:812828110393:web:eb0048e49c2bbbc5b4e7e8",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // ✅ 3. Handle Form Submission
+        const form = document.getElementById("login-form");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault(); // stop form from refreshing
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                console.log("User signed in:", user.email);
+
+                // Optionally get the ID token
+                const token = await user.getIdToken();
+                console.log("ID Token:", token);
+
+                // Now you can send token to backend or redirect
+            } catch (error) {
+                console.error("Login failed:", error.message);
+                alert(error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
